@@ -142,6 +142,7 @@ class IPSocket extends Socket
 		{
 			throw new Exception("Error creating socket: ".socket_last_error()." ".socket_strerror(socket_last_error()));
 		}
+		//socket_set_option($this->sock, SOL_TCP, TCP_NODELAY, 1);
 		$this->connected = false;
 		$this->host = $ip;
 		$this->port = $port;

@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "log.h"
+
 SynchronousSocket::SynchronousSocket()
 {
 	socket = -1;
@@ -63,6 +65,7 @@ void SynchronousSocket::Send(const string & data)
 {
 	int pos = 0;
 	time_t start = time(NULL);
+	LogTime("Send() start");
 	while (pos < (int)data.length())
 	{
 		int res = send(socket, &((data.data())[pos]), data.length() - pos, 0);
@@ -87,17 +90,21 @@ void SynchronousSocket::Send(const string & data)
 			pos += res;
 		}
 	}
+	LogTime("Send() finish");
 }
 
 string SynchronousSocket::Receive(int amount)
 {
 	string r = "";
 	time_t start = time(NULL);
+	LogTime("Receive() start");
 	while ((int)r.length() < amount)
 	{
 		char buf[BUFFER_SIZE];
 		int to_recv = min((int)sizeof(buf), amount - (int)r.length());
+		LogTime("Receive(), before recv");
 		int res = recv(socket, buf, to_recv, 0);
+		LogTime("Receive(), after recv");
 		if (res == 0)
 		{
 			// бросаем специфический exception, означающий, что сокет закрыт
@@ -125,6 +132,7 @@ string SynchronousSocket::Receive(int amount)
 			r += string(buf, res);
 		}
 	}
+	LogTime("Receive() finish");
 	return r;
 }
 

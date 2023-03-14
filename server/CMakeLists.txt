@@ -17,6 +17,9 @@ task.cpp
 mutex.h
 mutex.cpp
 
+log.h
+log.cpp
+
 SynchronousSocket.cpp
 SynchronousSocket.h
 )

@@ -36,9 +36,10 @@ function testSocket($amount, $reconnect, $size)
 		$m = makeRequest($size);
 		logTime("begin sending");
 		$s->sendMessage($m);
+		$ts = hrtime(true);
 		logTime("sent, receiving");
 		$r = $s->receiveMessage();
-		logTime("received");
+		logTime("received, time = ".sprintf("%.3f", (hrtime(true) - $ts) / 1000000.0));
 		$current++;
 		if ($current >= $reconnect)
 		{
