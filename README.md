@@ -1,6 +1,3 @@
-This is a test project written to compare methods of 
-communicating between PHP and C++ code.
-
-It contains a server, written in C++ and client, written
-in PHP. The client sends several requests to server via
-all implemented mechanisms and measures time taken.
+This is a simple experimental project to investigate TCP socket 
+performance peculiarities. Mainly, strange effect when reconnecting
+after every message works faster than reusing the same connection.
