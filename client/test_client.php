@@ -13,9 +13,9 @@ $log_start = hrtime(true);
 
 function logTime($message)
 {
-	global $log_start;
+	/*global $log_start;
 	$current = (hrtime(true) - $log_start) / 1000000.0;
-	print(sprintf("%.3f", $current)." ".$message."\n");
+	print(sprintf("%.3f", $current)." ".$message."\n");*/
 }
 
 function testSocket($amount, $reconnect, $size)

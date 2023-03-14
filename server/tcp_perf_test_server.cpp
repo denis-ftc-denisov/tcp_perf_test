@@ -97,12 +97,6 @@ void* IPSocketThread(void* arg)
 			cerr << "Error accepting connection, errno = " << errno << "\n";
 			continue;
 		}
-		int yes = 1;
-		int result = setsockopt(recsock, IPPROTO_TCP, TCP_NODELAY, (char*)&yes, sizeof(int));
-		if (result < 0)
-		{
-			cerr << "Error setting socket option, errno = " << errno << "\n";
-		}
 		cout << "Accepted connection from " << inet_ntoa(peeraddr.sin_addr) << ":" << ntohs(peeraddr.sin_port) << "\n";
 		CreateThread(&ProcessRequests, &recsock);
 	}                                                   

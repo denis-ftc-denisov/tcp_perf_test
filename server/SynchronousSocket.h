@@ -10,6 +10,8 @@ class SynchronousSocket
 private:
 	const int TIMEOUT = 10; // in seconds
 	const int BUFFER_SIZE = 1048576;
+	const int YES = 1;
+	const int NO = 0;
 protected:
 	// собственно сокет
 	int socket;

@@ -3,6 +3,7 @@
 abstract class Socket
 {
 	const RECEIVE_TIMEOUT = 10;
+	const TCP_CORK = 3;
 
 	protected $sock;
 	protected $throw_exception_on_timeout;
@@ -107,8 +108,10 @@ abstract class Socket
 	{
 		$len = strlen($s);
 		$lens = chr(($len >> 0) & 0xFF) . chr(($len >> 8) & 0xFF) . chr(($len >> 16) & 0xFF) . chr(($len >> 24) & 0xFF);
+		socket_set_option($this->sock, SOL_TCP, self::TCP_CORK, 1);
 		$this->iterativeSend($lens);
 		$this->iterativeSend($s);
+		socket_set_option($this->sock, SOL_TCP, self::TCP_CORK, 0);
 	}
 
 	/*
@@ -141,8 +144,7 @@ class IPSocket extends Socket
 		if ($this->sock === FALSE) 
 		{
 			throw new Exception("Error creating socket: ".socket_last_error()." ".socket_strerror(socket_last_error()));
-		}
-		//socket_set_option($this->sock, SOL_TCP, TCP_NODELAY, 1);
+		} 
 		$this->connected = false;
 		$this->host = $ip;
 		$this->port = $port;

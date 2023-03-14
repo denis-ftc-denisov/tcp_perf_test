@@ -1,5 +1,6 @@
 #include "SynchronousSocket.h"
 
+#include <netinet/tcp.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -162,8 +163,18 @@ void SynchronousSocket::SendMessage(const string & m)
 	{
 		len_s += (char)((len >> (8 * i)) & 0xFF);
 	}
+	int result = setsockopt(socket, IPPROTO_TCP, TCP_CORK, (char*)&YES, sizeof(int));
+	if (result < 0)
+	{
+		throw (string)("Error setting socket option");
+	}
 	Send(len_s);
 	Send(m);
+	result = setsockopt(socket, IPPROTO_TCP, TCP_CORK, (char*)&NO, sizeof(int));
+	if (result < 0)
+	{
+		throw (string)("Error setting socket option");
+	}
 }
 
 
